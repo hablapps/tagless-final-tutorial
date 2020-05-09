@@ -56,10 +56,7 @@ implicit class TimeOp[A](code: => A){
 
 implicit class WithFilterFS2[F[_]: Applicative, A](st: Stream[F, A]){
     def withFilter(f: A => Boolean): Stream[F, A] =
-        st.flatMap{ a =>
-            if (f(a)) Stream.eval(a.pure[F])
-            else Stream.empty
-        }
+        st.filter(f)
 }
 
 implicit class WithFilterCats[F[_]: FunctorFilter, A](f: F[A]){
@@ -67,25 +64,25 @@ implicit class WithFilterCats[F[_]: FunctorFilter, A](f: F[A]){
         f.filter(p)
 }
 
-implicit def MonadStateTraverse[F[_]: Monad: Traverse, S]: Monad[λ[T => State[S, F[T]]]] =
-    new Monad[λ[T => State[S, F[T]]]]{
-        def flatMap[A, B](p: State[S, F[A]])(f: A => State[S, F[B]]) =
+implicit def MonadTraverse[M[_]: Monad, F[_]: Monad: Traverse, S]: Monad[λ[T => M[F[T]]]] =
+    new Monad[λ[T => M[F[T]]]]{
+        def flatMap[A, B](p: M[F[A]])(f: A => M[F[B]]) =
             p.flatMap(_.traverse(f).map(_.flatten))
 
-        def pure[A](x: A): State[S, F[A]] =
-            x.pure[F].pure[State[S, ?]]
+        def pure[A](x: A): M[F[A]] =
+            x.pure[F].pure[M]
 
-        def tailRecM[A, B](a: A)(f: A => State[S, F[Either[A,B]]]): State[S, F[B]] =
+        def tailRecM[A, B](a: A)(f: A => M[F[Either[A,B]]]): M[F[B]] =
             ??? // TBD
     }
 
-implicit def FunctorFilterState[F[_]: Applicative: FunctorFilter, S] =
-    new FunctorFilter[λ[T => State[S, F[T]]]]{
-        def functor = new Functor[λ[T => State[S, F[T]]]]{
-            def map[A, B](p: State[S, F[A]])(f: A=>B) =
+implicit def FunctorFilterState[M[_]: Functor, F[_]: Applicative: FunctorFilter] =
+    new FunctorFilter[λ[T => M[F[T]]]]{
+        def functor = new Functor[λ[T => M[F[T]]]]{
+            def map[A, B](p: M[F[A]])(f: A => B) =
                 p.map(_.map(f))
         }
-        def mapFilter[A, B](fa: State[S, F[A]])(f: A => Option[B]): State[S, F[B]] =
+        def mapFilter[A, B](fa: M[F[A]])(f: A => Option[B]): M[F[B]] =
             fa.map(_.mapFilter(f))
 }
 
@@ -107,5 +104,4 @@ implicit def FunctorFilterStream[F[_]: Applicative] = new FunctorFilter[Stream[F
         fa.collect{ a => f(a) match {
             case Some(b) => b
         }}
-
 }
