@@ -24,6 +24,8 @@ val xa = Transactor.fromDriverManager[IO](
   Blocker.liftExecutionContext(ExecutionContexts.synchronous) // just for testing
 )
 
+val y = xa.yolo
+
 // QUILL
 
 import _root_.io.getquill.{ idiom => _, _ }
