@@ -107,3 +107,10 @@ implicit def FunctorFilterStream[F[_]: Applicative] = new FunctorFilter[Stream[F
             case Some(b) => b
         }}
 }
+
+implicit class MkFragmentFromList(list: List[Fragment]){
+    def mkFragment(sep: Fragment, before: Boolean = true, after: Boolean = true): Fragment = {
+        val sep2 = (if (before) fr0" " else fr0"") ++ sep ++ (if (after) fr0" " else fr0"")
+        list.flatMap(List(_, sep2)).dropRight(1).combineAll
+    }
+}
