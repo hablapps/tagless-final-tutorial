@@ -1,11 +1,14 @@
 // DEPENDENCIES
 
 import $plugin.$ivy.`org.spire-math:kind-projector_2.13.0-RC1:0.9.10`
+//import $plugin.$ivy.`org.spire-math::kind-projector:0.9.10`
 import $ivy.`org.slf4j:slf4j-nop:1.7.21`
 import $ivy.`org.postgresql:postgresql:42.2.10`
 import $ivy.`org.tpolecat::doobie-postgres:0.8.8`
 import $ivy.`org.tpolecat::doobie-quill:0.8.8`
 import $ivy.`io.getquill::quill-jdbc:3.5.1`
+import $ivy.`org.tpolecat::doobie-hikari:0.8.8`          // HikariCP transactor.
+
 
 // DOOBIE INTERPRETER
 
@@ -54,7 +57,7 @@ implicit class TimeOp[A](code: => A){
   def timedNano: A = timedAux(code, true)
 }
 
-// UTILS
+// CATS UTILS
 
 implicit class WithFilterFS2[F[_]: Applicative, A](st: Stream[F, A]){
     def withFilter(f: A => Boolean): Stream[F, A] =
@@ -78,7 +81,7 @@ implicit def MonadTraverse[M[_]: Monad, F[_]: Monad: Traverse, S]: Monad[λ[T =>
             ??? // TBD
     }
 
-implicit def FunctorFilterState[M[_]: Functor, F[_]: Applicative: FunctorFilter] =
+implicit def FunctorFilterM[M[_]: Functor, F[_]: Applicative: FunctorFilter] =
     new FunctorFilter[λ[T => M[F[T]]]]{
         def functor = new Functor[λ[T => M[F[T]]]]{
             def map[A, B](p: M[F[A]])(f: A => B) =
@@ -107,6 +110,15 @@ implicit def FunctorFilterStream[F[_]: Applicative] = new FunctorFilter[Stream[F
             case Some(b) => b
         }}
 }
+
+implicit def convertToListOption[F[_]: Functor, G[_], A](fa: F[Option[A]]): F[List[A]] = 
+    fa.map(_.toList)
+
+implicit def convertToListId[F[_]: Functor, A](fa: F[A]): F[List[A]] = 
+    fa.map(List(_))
+
+
+// DOOBIE UTILS
 
 implicit class MkFragmentFromList(list: List[Fragment]){
     def mkFragment(sep: Fragment, before: Boolean = true, after: Boolean = true): Fragment = {
