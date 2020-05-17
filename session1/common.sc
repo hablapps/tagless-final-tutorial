@@ -42,19 +42,38 @@ val dc = new DoobieContext.Postgres(Literal) // Literal naming scheme
 
 import java.util.concurrent.TimeUnit
 
-def timedAux[A](code: => A, nano: Boolean = false): A = {
-    val start = System.nanoTime
-    val result: A = code
-    val end = System.nanoTime
-    val nanos = end -start
-    val millis = TimeUnit.NANOSECONDS.toMillis(nanos)
-    println(if (nano) s"$nanos nanos" else s"$millis millis")
-    result
+def timedAux[A](code: => A, times: Int = 1): (A, Long) = {
+    def aux(code: => A): (A, Long) = {
+        val start = System.nanoTime
+        val result: A = code
+        val end = System.nanoTime
+        (result, end-start)
+    }
+
+    val (a, time) = aux(code)
+    val avg = (time :: List.fill(times-1)(aux(code)).map(_._2)).reduce(_ + _) / times
+    (a, avg)
 }
 
 implicit class TimeOp[A](code: => A){
-  def timed: A = timedAux(code)
-  def timedNano: A = timedAux(code, true)
+  def timed: (A, Long) =
+      timedAux(code, 5)  
+  def timed(times: Int = 1): (A, Long) = 
+      timedAux(code, times)
+}
+
+implicit class ShowTimes[A](result: (A, Long)){
+  
+  def millis: A = {
+      val mill = TimeUnit.NANOSECONDS.toMillis(result._2)
+      println(s"$mill millis")
+      result._1
+  }
+  
+  def nanos: A = {
+      println(s"${result._2} nanos")
+      result._1
+  }
 }
 
 // CATS UTILS
