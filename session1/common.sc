@@ -1,14 +1,13 @@
 // DEPENDENCIES
 
-import $plugin.$ivy.`org.spire-math:kind-projector_2.13.0-RC1:0.9.10`
-//import $plugin.$ivy.`org.spire-math::kind-projector:0.9.10`
+import $plugin.$ivy.`org.typelevel::kind-projector:0.10.3`
 import $ivy.`org.slf4j:slf4j-nop:1.7.21`
 import $ivy.`org.postgresql:postgresql:42.2.10`
 import $ivy.`org.tpolecat::doobie-postgres:0.8.8`
 import $ivy.`org.tpolecat::doobie-quill:0.8.8`
+import $ivy.`org.tpolecat::doobie-hikari:0.8.8`   
 import $ivy.`io.getquill::quill-jdbc:3.5.1`
-import $ivy.`org.tpolecat::doobie-hikari:0.8.8`          // HikariCP transactor.
-
+import $ivy.`org.scalatest::scalatest:3.1.2`
 
 // DOOBIE INTERPRETER
 
@@ -34,7 +33,6 @@ val y = xa.yolo
 import _root_.io.getquill.{ idiom => _, _ }
 import _root_.doobie.quill.DoobieContext
 import _root_.doobie.util.ExecutionContexts
-
 
 val dc = new DoobieContext.Postgres(Literal) // Literal naming scheme
 
