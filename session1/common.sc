@@ -1,3 +1,5 @@
+interp.configureCompiler(_.settings.nowarnings.value = true)
+
 // DEPENDENCIES
 
 import $plugin.$ivy.`org.typelevel::kind-projector:0.10.3`
