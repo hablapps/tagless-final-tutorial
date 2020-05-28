@@ -1,4 +1,4 @@
-# Tagless-final or abstraction without guilt
+# Tagless-final, or abstraction without guilt
 
 This repository offers an introduction to the tagless-final approach, as well as a comparison with alternative approaches - the MTL style, in particular. The introduction is largely based on the following two papers:
 
