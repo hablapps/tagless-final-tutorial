@@ -9,7 +9,7 @@ The material is structured around a number of variations on a theme of Language-
 
 * [Variation 1](Variation1.JDBC.ipynb). Plain JDBC
 * [Variation 2](Variation2.InMemory.ipynb). In-memory queries
-* [Variation 3](Variation3.DAO.ipynb). DAOs
+* [Variation 3](Variation3.DAOs.ipynb). DAOs
 * [Variation 4](Variation4.MTL.ipynb). MTL-based repositories
 * [Variation 5](Variation5.QDSL.ipynb). Quoted DSLs: Quill
 * [Variation 6a](Variation6a.Tagless.ipynb). Tagless-final: QUEΛ
@@ -18,4 +18,6 @@ The material is structured around a number of variations on a theme of Language-
 Each variation exposes the solution to the problem, and both its advantages and disadvantages. These are mainly framed in the trade-offs between modularity and efficiency conveyed by the use of the different techniques. Tagless-final is presented as one of the techniques to achieve abstraction, without sacrifying efficiency.
 
 ### Set-up
+
+Throughout this introduction, we will play with the _world_ database used in the documentation of [doobie](https://tpolecat.github.io/doobie), a most convenient JDBC wrapper for Scala. You can find instructions [here](https://tpolecat.github.io/doobie/docs/01-Introduction.html) for the set-up of a postgres database server and the installation of the _world_ database. The script [common.sc](./common.sc) contains several utilities as well as a ready-to-use doobie transactor for issuing SQL queries to the world database.
 
