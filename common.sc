@@ -1,5 +1,3 @@
-interp.configureCompiler(_.settings.nowarnings.value = true)
-
 // DEPENDENCIES
 
 import $plugin.$ivy.`org.typelevel::kind-projector:0.10.3`
@@ -7,7 +5,7 @@ import $ivy.`org.slf4j:slf4j-nop:1.7.21`
 import $ivy.`org.postgresql:postgresql:42.2.10`
 import $ivy.`org.tpolecat::doobie-postgres:0.8.8`
 import $ivy.`org.tpolecat::doobie-quill:0.8.8`
-import $ivy.`org.tpolecat::doobie-hikari:0.8.8`   
+import $ivy.`org.tpolecat::doobie-hikari:0.8.8`
 import $ivy.`io.getquill::quill-jdbc:3.5.1`
 import $ivy.`org.scalatest::scalatest:3.1.2`
 
@@ -57,19 +55,19 @@ def timedAux[A](code: => A, times: Int = 1): (A, Long) = {
 
 implicit class TimeOp[A](code: => A){
   def timed: (A, Long) =
-      timedAux(code, 5)  
-  def timed(times: Int = 1): (A, Long) = 
+      timedAux(code, 5)
+  def timed(times: Int = 1): (A, Long) =
       timedAux(code, times)
 }
 
 implicit class ShowTimes[A](result: (A, Long)){
-  
+
   def millis: A = {
       val mill = TimeUnit.NANOSECONDS.toMillis(result._2)
       println(s"$mill millis")
       result._1
   }
-  
+
   def nanos: A = {
       println(s"${result._2} nanos")
       result._1
@@ -86,28 +84,6 @@ implicit class WithFilterFS2[F[_]: Applicative, A](st: Stream[F, A]){
 implicit class WithFilterCats[F[_]: FunctorFilter, A](f: F[A]){
     def withFilter(p: A => Boolean): F[A] =
         f.filter(p)
-}
-
-implicit def MonadTraverse[M[_]: Monad, F[_]: Monad: Traverse, S]: Monad[λ[T => M[F[T]]]] =
-    new Monad[λ[T => M[F[T]]]]{
-        def flatMap[A, B](p: M[F[A]])(f: A => M[F[B]]) =
-            p.flatMap(_.traverse(f).map(_.flatten))
-
-        def pure[A](x: A): M[F[A]] =
-            x.pure[F].pure[M]
-
-        def tailRecM[A, B](a: A)(f: A => M[F[Either[A,B]]]): M[F[B]] =
-            ??? // TBD
-    }
-
-implicit def FunctorFilterM[M[_]: Functor, F[_]: Applicative: FunctorFilter] =
-    new FunctorFilter[λ[T => M[F[T]]]]{
-        def functor = new Functor[λ[T => M[F[T]]]]{
-            def map[A, B](p: M[F[A]])(f: A => B) =
-                p.map(_.map(f))
-        }
-        def mapFilter[A, B](fa: M[F[A]])(f: A => Option[B]): M[F[B]] =
-            fa.map(_.mapFilter(f))
 }
 
 implicit def MonadStream[F[_]: Applicative] = new Monad[Stream[F, ?]]{
@@ -129,13 +105,6 @@ implicit def FunctorFilterStream[F[_]: Applicative] = new FunctorFilter[Stream[F
             case Some(b) => b
         }}
 }
-
-implicit def convertToListOption[F[_]: Functor, G[_], A](fa: F[Option[A]]): F[List[A]] = 
-    fa.map(_.toList)
-
-implicit def convertToListId[F[_]: Functor, A](fa: F[A]): F[List[A]] = 
-    fa.map(List(_))
-
 
 // DOOBIE UTILS
 
