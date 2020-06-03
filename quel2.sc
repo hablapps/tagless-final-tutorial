@@ -20,6 +20,7 @@ trait ADTExpr[Repr[_]]{
 }
 
 trait MultisetExpr[Repr[_]]{
+    def table[A](name: String): Repr[List[A]]
     def from[A, B](q: Repr[List[A]])(f: Repr[A] => Repr[List[B]]): Repr[List[B]]
     def where[A](cond: Repr[Boolean])(q: Repr[List[A]]): Repr[List[A]]
     def select[A](a: Repr[A]): Repr[List[A]]
