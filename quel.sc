@@ -6,6 +6,8 @@ trait BaseExpr[Repr[_]]{
 
     def ===(a1: Repr[Int], a2: Repr[Int]): Repr[Boolean]
     def >(i1: Repr[Int], i2: Repr[Int]): Repr[Boolean]
+    def &&(i1: Repr[Boolean], i2: Repr[Boolean]): Repr[Boolean]
+
     // lots of relational operators more ...
 }
 
