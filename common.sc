@@ -21,8 +21,8 @@ implicit val cs = IO.contextShift(ExecutionContexts.synchronous)
 val xa = Transactor.fromDriverManager[IO](
   "org.postgresql.Driver",     // driver classname
   "jdbc:postgresql:world",     // connect URL (driver-specific)
-  "postgres",                  // user
-  "",                          // password
+  "jserrano",                  // user
+  "forget1",                          // password
   Blocker.liftExecutionContext(ExecutionContexts.synchronous) // just for testing
 )
 
