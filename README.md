@@ -9,7 +9,7 @@ The material is structured around a number of variations on a theme of Language-
 
 * [Variation 1](Variation1.JDBC.ipynb). Plain JDBC
 * [Variation 2](Variation2.InMemory.ipynb). In-memory queries
-* [Variation 3](Variation3.DAOs.ipynb). DAOs
+* [Variation 3](Variation3.Repositories.ipynb). Repositories
 * [Variation 4](Variation4.MTL.ipynb). MTL-based repositories
 * [Variation 5](Variation5.QDSL.ipynb). Quoted DSLs: Quill
 * [Variation 6a](Variation6a.TaglessFinal.ipynb). Tagless-final: QUEΛ
