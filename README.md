@@ -20,4 +20,7 @@ Each variation exposes the solution to the problem, and both its advantages and 
 ### Set-up
 
 Throughout this introduction, we will play with the _world_ database used in the documentation of [doobie](https://tpolecat.github.io/doobie), a most convenient JDBC wrapper for Scala. You can find instructions [here](https://tpolecat.github.io/doobie/docs/01-Introduction.html) for the set-up of a postgres database server and the installation of the _world_ database. The script [common.sc](./common.sc) contains several utilities as well as a ready-to-use doobie transactor for issuing SQL queries to the world database.
+ 
+### Presentations
 
+* Madrid Scala Meetup group, 9/6/20 ([slides](https://docs.google.com/presentation/d/13aIIeicm4r-9iorLmVBuezPnzkyh1E-bDDxuNtp8e4w/edit?usp=sharing), [video (Spanish)](https://youtu.be/IjrR5isbGo0))
