@@ -7,8 +7,8 @@ This repository offers an introduction to the tagless-final approach, as well as
 
 The material is structured around a number of variations on a theme of Language-Integrated Query. In particular, we will focus on six different ways to perform a query in Scala over a relational database:
 
-* [Variation 1](Variation1.JDBC.ipynb). Plain JDBC
-* [Variation 2](Variation2.InMemory.ipynb). In-memory queries
+* [Variation 1](Variation1.SQL.ipynb). Plain JDBC
+* [Variation 2](Variation2.ListComprehensions.ipynb). In-memory queries
 * [Variation 3](Variation3.Repositories.ipynb). Repositories
 * [Variation 4](Variation4.MTL.ipynb). MTL-based repositories
 * [Variation 5](Variation5.QDSL.ipynb). Quoted DSLs: Quill
@@ -24,3 +24,4 @@ Throughout this introduction, we will play with the _world_ database used in the
 ### Presentations
 
 * Madrid Scala Meetup group, 9/6/20 ([slides](https://docs.google.com/presentation/d/13aIIeicm4r-9iorLmVBuezPnzkyh1E-bDDxuNtp8e4w/edit?usp=sharing), [video (Spanish)](https://youtu.be/IjrR5isbGo0))
+* Scala Bay meetup, 5/9/20 ([slides](https://docs.google.com/presentation/d/1ZfYILkFhTdlGiG8QmmkoaebH4DdbTKGK3P9jbl8CH48/edit?usp=sharing))
